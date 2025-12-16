@@ -1,8 +1,9 @@
-import  { useState } from "react";
-import { Button, Checkbox, Form, Input, message } from "antd";
+
 import type { FormProps } from "antd";
-import { loginUser } from "../../services/filmService";
+import { Button, Checkbox, Form, Input, message } from "antd";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { loginUser } from "../../services/filmService";
 
 type FieldType = {
     email?: string;
@@ -72,7 +73,7 @@ const App = () => {
             </Form.Item>
 
 
-            <Form.Item<FieldType> name="remember" valuePropName="checked" label={null}>
+            <Form.Item<FieldType> name="email" valuePropName="checked" label={null}>
                 <Checkbox>Remember me</Checkbox>
             </Form.Item>
 
