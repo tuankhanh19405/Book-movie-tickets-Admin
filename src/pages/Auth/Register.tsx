@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { Button, Checkbox, Form, Input, message } from "antd";
 import type { FormProps } from "antd";
 import { registerFilms } from "../../services/filmService";
@@ -11,7 +11,7 @@ type FieldType = {
     remember?: boolean;
 };
 
-const App: React.FC = () => {
+const App = () => {
     const [loading, setLoading] = useState(false);
     const nav = useNavigate();
 

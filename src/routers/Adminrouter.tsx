@@ -6,6 +6,7 @@ import UsersPage from "../pages/UserPage";
 import SettingsPage from "../pages/SettingPage";
 import Register from "../pages/Auth/Register";
 import Login from "../pages/Auth/Login";
+import ShowtimePage from "../pages/ShowtimePage";
 
 const AdminRouter = [{
   path: "/",
@@ -14,6 +15,7 @@ const AdminRouter = [{
     { index: true, element: <Navigate to={"/dashboard"} /> },
     { path: "dashboard", Component: DashboardPage },
     { path: "movies", Component: MoviesPage },
+    { path: "showtime", Component: ShowtimePage },
     { path: "users", Component: UsersPage },
     { path: "settings", Component: SettingsPage },
     { path: "register", Component: Register },
