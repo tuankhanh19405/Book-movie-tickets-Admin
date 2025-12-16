@@ -1,5 +1,6 @@
 import { Avatar, Button, Input, Select, Switch, Tabs } from "antd";
-import { AlertCircle, Bell, CreditCard, Edit, Globe, Lock, Option, UploadCloud, User, Users } from "lucide-react";
+import { Option } from "antd/es/mentions";
+import { AlertCircle, Bell, CreditCard, Edit, Globe, Lock, UploadCloud, User, Users } from "lucide-react";
 
 const SettingsPage = () => {
   return (
