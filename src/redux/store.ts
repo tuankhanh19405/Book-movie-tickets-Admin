@@ -3,6 +3,7 @@ import movieReducer from './slices/movieSlice';
 import showtimeReducer from './slices/showtimeSlice'
 import checkInReducer from './slices/checkinSlice'
 import dashboardReducer from './slices/DashboardSlice'
+import userReducer from './slices/userSlice'
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     showtime: showtimeReducer,
     checkin: checkInReducer,
     dashboard: dashboardReducer,
+    users : userReducer,
 
   },
 });
