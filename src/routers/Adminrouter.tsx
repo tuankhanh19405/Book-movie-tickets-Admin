@@ -7,6 +7,7 @@ import SettingsPage from "../pages/SettingPage";
 import Register from "../pages/Auth/Register";
 import Login from "../pages/Auth/Login";
 import ShowtimePage from "../pages/ShowtimePage";
+import TicketCheckinPage from "../pages/TicketCheckinPage";
 
 const AdminRouter = [{
   path: "/",
@@ -20,6 +21,7 @@ const AdminRouter = [{
     { path: "settings", Component: SettingsPage },
     { path: "register", Component: Register },
     { path: "login", Component: Login },
+    { path:"check-in" ,Component :TicketCheckinPage } 
 
   ],
 },
