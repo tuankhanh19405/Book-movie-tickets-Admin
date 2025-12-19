@@ -1,4 +1,4 @@
-import { Button, Menu } from "antd"
+import {  Menu } from "antd"
 import Sider from "antd/es/layout/Sider"
 import { PlayCircle } from "lucide-react"
 import { menuItems } from "../../db"
@@ -44,20 +44,7 @@ const AdminSidebar = ({ collapsed, setCollapsed, selectedKey, setSelectedKey }: 
                 />
             </div>
 
-            {!collapsed && (
-            <div className="absolute bottom-8 left-0 w-full px-6">
-                <div className="bg-slate-800/50 rounded-2xl p-4 border border-slate-700/50 backdrop-blur-sm">
-                    <div className="flex items-center gap-3 mb-3">
-                        <div className="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-xs font-bold text-white">PRO</div>
-                        <div>
-                            <p className="text-white text-xs font-bold m-0">Gói Doanh Nghiệp</p>
-                            <p className="text-slate-400 text-[10px] m-0">Hết hạn sau 12 ngày</p>
-                        </div>
-                    </div>
-                    <Button type="primary" size="small" block className="bg-indigo-600 border-none text-xs font-semibold">Gia hạn ngay</Button>
-                </div>
-            </div>
-            )}
+            
         </Sider>
     )
 }
