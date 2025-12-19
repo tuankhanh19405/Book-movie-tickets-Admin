@@ -1,4 +1,4 @@
-import { CalendarClock, Film, LayoutDashboard, Settings, Users } from "lucide-react";
+import { CalendarClock, Film, LayoutDashboard, ScanBarcode, Settings, Users } from "lucide-react";
 
 export const initialMovies = [
   {
@@ -53,6 +53,7 @@ export const menuItems = [
   { key: 'dashboard', icon: <LayoutDashboard size={20} />, label: 'Tổng quan' },
   { key: 'movies', icon: <Film size={20} />, label: 'Quản lý Phim' },
   { key: 'showtime', icon: <CalendarClock size={20} />, label: 'Quản lý lịch chiếu Phim' },
+  { key: 'check-in', icon: <ScanBarcode size={20} />, label: 'Checkin Ticket' },
   { key: 'users', icon: <Users size={20} />, label: 'Người dùng' },
   { key: 'settings', icon: <Settings size={20} />, label: 'Cài đặt' },
 ];
