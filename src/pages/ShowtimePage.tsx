@@ -1,8 +1,9 @@
-import  { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Table, Button, Modal, Form, Select, DatePicker, InputNumber, Tag, message, Tooltip, Popconfirm } from 'antd';
 import { PlusOutlined, CalendarOutlined, DeleteOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
+import type { RangePickerProps } from 'antd/es/date-picker';
 import type { ColumnsType } from 'antd/es/table';
 
 // Import Types & Slices
@@ -66,9 +67,7 @@ const ShowtimePage= () => {
       title: 'Lịch Chiếu',
       key: 'time',
       render: (_, record) => {
-        // Kiểm tra xem lịch đã qua chưa để đổi màu
         const isEnded = dayjs(record.end_time).isBefore(dayjs());
-        
         return (
           <div className="flex flex-col">
             <div className={`flex items-center gap-1 font-semibold ${isEnded ? 'text-gray-400' : 'text-blue-600'}`}>
@@ -100,9 +99,7 @@ const ShowtimePage= () => {
       dataIndex: 'seats_booked',
       key: 'seats_booked',
       render: (seats: string[] | undefined) => {
-        // FIX LỖI CRASH: Kiểm tra undefined/null
         const safeSeats = seats || [];
-        
         return (
           safeSeats.length > 0 ? (
             <Tooltip title={safeSeats.join(', ')}>
@@ -145,6 +142,13 @@ const ShowtimePage= () => {
     if (movie) setSelectedMovie(movie as Movie);
   };
 
+  // 🔥 VALIDATE NGÀY: Chặn tất cả các ngày từ hôm nay trở về trước
+  // (Bắt buộc chọn từ ngày mai trở đi)
+  const disabledDate: RangePickerProps['disabledDate'] = (current) => {
+    // current < cuối ngày hôm nay => Disable hết hôm nay và quá khứ
+    return current && current < dayjs().endOf('day');
+  };
+
   const handleCreate = async () => {
     try {
       const values = await form.validateFields();
@@ -153,8 +157,17 @@ const ShowtimePage= () => {
         return;
       }
 
-      // Tự động tính giờ kết thúc
-      const startTime = values.start_time; 
+      const startTime = values.start_time;
+      
+      // 🔥 VALIDATE GIỜ: Phải cách thời điểm hiện tại ít nhất 24 giờ
+      // Ví dụ: Bây giờ là 10h ngày 1/1 -> Chỉ được tạo lịch từ 10h ngày 2/1 trở đi
+      const minValidTime = dayjs().add(24, 'hour');
+
+      if (startTime.isBefore(minValidTime)) {
+        message.error(`Lịch chiếu phải cách hiện tại ít nhất 24 giờ! (Sớm nhất là: ${minValidTime.format('HH:mm DD/MM')})`);
+        return;
+      }
+
       const endTime = startTime.add(selectedMovie.duration_min, 'minute');
 
       const payload: CreateShowtimeDTO = {
@@ -200,14 +213,11 @@ const ShowtimePage= () => {
       {/* Table */}
       <Table 
         columns={columns} 
-        // 1. Copy mảng để sort tránh lỗi mutate state
-        // 2. Sort: Mới nhất (tương lai) lên đầu, cũ nhất (quá khứ) xuống dưới
         dataSource={[...showtimes].sort((a, b) => new Date(b.start_time).getTime() - new Date(a.start_time).getTime())}
         rowKey="_id" 
         loading={loading}
         className="bg-white rounded-lg shadow-sm overflow-hidden"
         pagination={{ pageSize: 8 }}
-        // Làm mờ hàng nếu lịch đã qua
         rowClassName={(record) => dayjs(record.end_time).isBefore(dayjs()) ? 'bg-gray-50 opacity-60 grayscale-[0.5]' : ''}
       />
 
@@ -255,12 +265,14 @@ const ShowtimePage= () => {
               name="start_time"
               label="Ngày & Giờ Chiếu"
               rules={[{ required: true, message: 'Vui lòng chọn thời gian' }]}
+              extra={<span className="text-xs text-gray-400">Lưu ý: Phải đặt trước ít nhất 1 ngày (24h)</span>}
             >
               <DatePicker 
                 showTime={{ format: 'HH:mm' }} 
                 format="DD/MM/YYYY HH:mm" 
                 className="w-full"
                 placeholder="Chọn giờ bắt đầu"
+                disabledDate={disabledDate} // Chặn ngày hôm nay và quá khứ trên UI
               />
             </Form.Item>
 
